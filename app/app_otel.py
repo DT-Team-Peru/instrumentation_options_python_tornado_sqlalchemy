@@ -9,32 +9,40 @@ from sqlalchemy.orm import sessionmaker
 #### OTEL Python ####
 
 # OpenTelemetry imports
-from opentelemetry import trace
+from opentelemetry import trace, metrics, logs
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import (
-    ConsoleSpanExporter,
-    BatchSpanProcessor,
-)
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter  # exporter HTTP
+from opentelemetry.sdk.metrics import MeterProvider
+from opentelemetry.sdk.logs import LogEmitterProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
+from opentelemetry.sdk.logs.export import BatchLogProcessor
+from opentelemetry.exporter.otlp.proto.http import OTLPExporter
+from opentelemetry.sdk.resources import Resource, SERVICE_NAME
 from opentelemetry.instrumentation.tornado import TornadoInstrumentor
 
-# Configuración de OpenTelemetry
-trace.set_tracer_provider(TracerProvider())
-tracer = trace.get_tracer(__name__)
+# Configuración del nombre del servicio para OTel
+resource = Resource.create({SERVICE_NAME: "python_pedidos"})
 
-# Exportador a la consola
-trace.get_tracer_provider().add_span_processor(
-    BatchSpanProcessor(ConsoleSpanExporter())
+# Configuración de OpenTelemetry para Traces, Metrics y Logs
+trace.set_tracer_provider(TracerProvider(resource=resource))
+metrics.set_meter_provider(MeterProvider(resource=resource))
+logs.set_log_emitter_provider(LogEmitterProvider(resource=resource))
+
+tracer = trace.get_tracer(__name__)
+meter = metrics.get_meter(__name__)
+log_emitter = logs.get_log_emitter(__name__)
+
+# Configuración del Exportador OTLP
+otlp_exporter = OTLPExporter(
+    endpoint=os.getenv("DT_URL"),
+    headers={"Authorization": f"Api-Token {os.getenv('DT_TOKEN')}"},
+    protocol="http/protobuf"
 )
 
-# Exportador a Dynatrace
-dt_url = os.getenv('DT_URL')
-dt_token = os.getenv('DT_TOKEN')
-if dt_url and dt_token:
-    otlp_exporter = OTLPSpanExporter(endpoint=dt_url, headers={"Authorization": f"Api-Token {dt_token}"})
-    trace.get_tracer_provider().add_span_processor(
-        BatchSpanProcessor(otlp_exporter)
-    )
+# Configurar procesadores para exportar trazas, métricas y logs a Dynatrace
+trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
+metrics.get_meter_provider().add_metric_reader(PeriodicExportingMetricReader(otlp_exporter))
+logs.get_log_emitter_provider().add_log_processor(BatchLogProcessor(otlp_exporter))
 
 #### OTEL Python ####
 
