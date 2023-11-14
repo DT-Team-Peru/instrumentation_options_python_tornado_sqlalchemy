@@ -88,5 +88,10 @@ Para realizar un `POST` a la ruta `/pedido` con un número (en este caso, 5798),
 
     curl -X POST http://localhost:8888/pedido -H "Content-Type: application/json" -d "{\"numero\": 5798}"
 
+### GET a `/pedidos`
+Para hacer un `GET` a la ruta `/pedidos`, abre tu línea de comandos o cmd y ejecuta:
+
+    curl http://localhost:8888/pedidos
+
 ## Conclusión
 Al seguir estos pasos, tendrás tu aplicación Python con Tornado corriendo y conectándose a una base de datos MySQL en un contenedor Docker en Windows.
