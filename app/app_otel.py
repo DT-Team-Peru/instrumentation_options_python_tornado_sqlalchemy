@@ -6,6 +6,38 @@ from sqlalchemy import create_engine, Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+#### OTEL Python ####
+
+# OpenTelemetry imports
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import (
+    ConsoleSpanExporter,
+    BatchSpanProcessor,
+)
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.tornado import TornadoInstrumentor
+
+# Configuración de OpenTelemetry
+trace.set_tracer_provider(TracerProvider())
+tracer = trace.get_tracer(__name__)
+
+# Exportador a la consola
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(ConsoleSpanExporter())
+)
+
+# Exportador a Dynatrace
+dt_url = os.getenv('DT_URL')
+dt_token = os.getenv('DT_TOKEN')
+if dt_url and dt_token:
+    otlp_exporter = OTLPSpanExporter(endpoint=dt_url, headers={"Authorization": f"Api-Token {dt_token}"})
+    trace.get_tracer_provider().add_span_processor(
+        BatchSpanProcessor(otlp_exporter)
+    )
+
+#### OTEL Python ####
+
 # Obtener variables de entorno
 db_host = os.getenv('DBHOST', 'localhost')  # Default a 'localhost' si no está definida
 db_port = os.getenv('DBPORT', '3306')       # Default a '3306' si no está definida
@@ -60,6 +92,11 @@ def make_app():
         (r"/pedido", PedidoHandler),
         (r"/pedidos", PedidosHandler),
     ])
+
+#### OTEL Python ####
+# Instrumentar Tornado
+TornadoInstrumentor().instrument()
+#### OTEL Python ####
 
 # Ejecutar aplicación
 if __name__ == "__main__":
