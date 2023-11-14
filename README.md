@@ -39,6 +39,10 @@ Instala las bibliotecas necesarias para Otel Python utilizando pip. En la termin
     pip install opentelemetry-instrumentation-tornado
     pip install opentelemetry-exporter-otlp
 
+Instala las bibliotecas necesarias para autodynatrace Python utilizando pip. En la terminal, ejecuta:
+
+    pip install autodynatrace
+
 ## Paso 3: Levantar el Contenedor Docker MySQL
 En la terminal, navega a la carpeta `/mysql` y ejecuta:
 
@@ -69,6 +73,11 @@ En la ventana de CMD, establece las variables de entorno utilizando el comando `
     set DBPORT=3306
 
 Para la instrumentación OTEL api dynatrace se requiere tenat url y el token:
+                
+    set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
+    set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
+
+Para la instrumentación autodynatrace se requieren las siguientes variables de entorno:
                 
     set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
     set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
