@@ -14,30 +14,37 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.metrics import MeterProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
-from opentelemetry.exporter.otlp.proto.http import OTLPExporter
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.exporter.otlp.proto.http.metrics_exporter import OTLPMetricsExporter
 from opentelemetry.sdk.resources import Resource, SERVICE_NAME
 from opentelemetry.instrumentation.tornado import TornadoInstrumentor
 
 # Configuración del nombre del servicio para OTel
 resource = Resource.create({SERVICE_NAME: "python_pedidos"})
 
-# Configuración de OpenTelemetry para Traces, Metrics y Logs
+# Configuración de OpenTelemetry para Traces
 trace.set_tracer_provider(TracerProvider(resource=resource))
-metrics.set_meter_provider(MeterProvider(resource=resource))
-
 tracer = trace.get_tracer(__name__)
-meter = metrics.get_meter(__name__)
 
-# Configuración del Exportador OTLP
-otlp_exporter = OTLPExporter(
+# Configuración del Exportador OTLP para Trazas
+otlp_span_exporter = OTLPSpanExporter(
     endpoint=os.getenv("DT_URL"),
     headers={"Authorization": f"Api-Token {os.getenv('DT_TOKEN')}"},
     protocol="http/protobuf"
 )
+trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_span_exporter))
 
-# Configurar procesadores para exportar trazas, métricas y logs a Dynatrace
-trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
-metrics.get_meter_provider().add_metric_reader(PeriodicExportingMetricReader(otlp_exporter))
+# Configuración de OpenTelemetry para Metrics
+metrics.set_meter_provider(MeterProvider(resource=resource))
+meter = metrics.get_meter(__name__)
+
+# Configuración del Exportador OTLP para Métricas
+otlp_metrics_exporter = OTLPMetricsExporter(
+    endpoint=os.getenv("DT_URL"),
+    headers={"Authorization": f"Api-Token {os.getenv('DT_TOKEN')}"},
+    protocol="http/protobuf"
+)
+metrics.get_meter_provider().add_metric_reader(PeriodicExportingMetricReader(otlp_metrics_exporter))
 
 #### OTEL Python ####
 
