@@ -9,13 +9,11 @@ from sqlalchemy.orm import sessionmaker
 #### OTEL Python ####
 
 # OpenTelemetry imports
-from opentelemetry import trace, metrics, logs
+from opentelemetry import trace, metrics
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.metrics import MeterProvider
-from opentelemetry.sdk.logs import LogEmitterProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
-from opentelemetry.sdk.logs.export import BatchLogProcessor
 from opentelemetry.exporter.otlp.proto.http import OTLPExporter
 from opentelemetry.sdk.resources import Resource, SERVICE_NAME
 from opentelemetry.instrumentation.tornado import TornadoInstrumentor
@@ -26,11 +24,9 @@ resource = Resource.create({SERVICE_NAME: "python_pedidos"})
 # Configuración de OpenTelemetry para Traces, Metrics y Logs
 trace.set_tracer_provider(TracerProvider(resource=resource))
 metrics.set_meter_provider(MeterProvider(resource=resource))
-logs.set_log_emitter_provider(LogEmitterProvider(resource=resource))
 
 tracer = trace.get_tracer(__name__)
 meter = metrics.get_meter(__name__)
-log_emitter = logs.get_log_emitter(__name__)
 
 # Configuración del Exportador OTLP
 otlp_exporter = OTLPExporter(
@@ -42,7 +38,6 @@ otlp_exporter = OTLPExporter(
 # Configurar procesadores para exportar trazas, métricas y logs a Dynatrace
 trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
 metrics.get_meter_provider().add_metric_reader(PeriodicExportingMetricReader(otlp_exporter))
-logs.get_log_emitter_provider().add_log_processor(BatchLogProcessor(otlp_exporter))
 
 #### OTEL Python ####
 
