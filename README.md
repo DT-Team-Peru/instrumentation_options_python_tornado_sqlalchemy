@@ -42,7 +42,7 @@ Esto levantará el contenedor de MySQL según la configuración definida en `doc
 ## Paso 4: Obtener la IP del Contenedor Docker
 Para obtener la dirección IP del contenedor, utiliza:
 
-    docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql-mysql-1
+    docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysqldb
 
 ## Paso 5: Definición de Variables de Entorno
 Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
