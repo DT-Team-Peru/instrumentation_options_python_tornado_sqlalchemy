@@ -73,7 +73,7 @@ Para la instrumentación OTEL api dynatrace se requiere tenat url y el token:
     set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
     set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
 
-Nota: Para mayor detalle pueden consultar https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#export-to-activegate
+Nota: Para mayor detalle pueden consultar [otlpexport](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#export-to-activegate) [authentication](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#authentication-export-to-activegate)
 
 3.3.  **Verificar Variables de Entorno:**
 Puedes verificar que las variables se hayan establecido correctamente con:
