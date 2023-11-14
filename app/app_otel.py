@@ -15,7 +15,7 @@ from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
     BatchSpanProcessor,
 )
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter  # exporter HTTP
 from opentelemetry.instrumentation.tornado import TornadoInstrumentor
 
 # Configuración de OpenTelemetry
