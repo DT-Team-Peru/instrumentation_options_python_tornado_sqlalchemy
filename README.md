@@ -59,7 +59,12 @@ En la ventana de CMD, establece las variables de entorno utilizando el comando `
                 
     set DBHOST=la_ip_de_tu_contenedor
     set DBPORT=3306
-        
+
+Para la instrumentación OTEL api dynatrace se requiere tenat url y el token:
+                
+    set DT_URL={url del tenant ej: }
+    set DT_TOKEN={token con los permisos: }
+
 Reemplaza `la_ip_de_tu_contenedor` con la dirección IP real de tu contenedor Docker MySQL.
 3.3.  **Verificar Variables de Entorno:**
 Puedes verificar que las variables se hayan establecido correctamente con:
@@ -76,9 +81,19 @@ Navega a la carpeta `/app` y ejecuta el script `app.py`:
 
     cd app
     python app.py
-    # python app_otel.py # instrumentación open telemetry con exporters a apis dynatrace
-    # python app_autodynatrace.py # instrumentación open source con sdk dynatrace y one agent
-    # python app_sdk.py # instumentación dynatrace sdk
+
+### Opciones de instrumentación para python con dynatrace
+instrumentación open telemetry con exporters a apis dynatrace
+
+    python app_otel.py
+
+instrumentación open source con sdk dynatrace y one agent
+
+    python app_autodynatrace.py
+
+instumentación dynatrace sdk
+
+    python app_sdk.py
 
 ## Prueba
 ### GET a `/ping`
