@@ -1,12 +1,17 @@
 import tornado.ioloop
 import tornado.web
 import json
+import os
 from sqlalchemy import create_engine, Column, Integer, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+# Obtener variables de entorno
+db_host = os.getenv('DBHOST', 'localhost')  # Default a 'localhost' si no está definida
+db_port = os.getenv('DBPORT', '3306')       # Default a '3306' si no está definida
+
 # Configuración de la Base de Datos
-DATABASE_URI = 'mysql+pymysql://user:password@localhost/mydatabase'
+DATABASE_URI = f'mysql+pymysql://user:password@{db_host}:{db_port}/mydatabase'
 Base = declarative_base()
 
 # Modelo SQLAlchemy para pedidos
