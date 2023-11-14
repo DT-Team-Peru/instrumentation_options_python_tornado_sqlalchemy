@@ -77,12 +77,12 @@ Para la instrumentación OTEL api dynatrace se requiere tenat url y el token:
     set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
     set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
 
-Para la instrumentación autodynatrace se requieren las siguientes variables de entorno:
-                
-    set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
-    set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
-
 Nota: Para mayor detalle pueden consultar [otlpexport](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#export-to-activegate) [authentication](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#authentication-export-to-activegate)
+
+Para la instrumentación autodynatrace se requiere las siguiente variable de entorno:
+                
+    set AUTOWRAPT_BOOTSTRAP=autodynatrace
+NOTA: Para autodynatrace se requiere previamente tener instalado el oneagent
 
 3.3.  **Verificar Variables de Entorno:**
 Puedes verificar que las variables se hayan establecido correctamente con:
@@ -105,7 +105,7 @@ instrumentación open telemetry con exporters a apis dynatrace
 
     python app_otel.py
 
-instrumentación open source con sdk dynatrace y one agent
+instrumentación open source con autodynatrace y one agent
 
     python app_autodynatrace.py
 
