@@ -2,7 +2,7 @@ import tornado.ioloop
 import tornado.web
 import json
 import os
-from sqlalchemy import create_engine, Column, Integer, MetaData
+from sqlalchemy import create_engine, Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -29,7 +29,7 @@ class PingHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("pong")
 
-# Tornado Request Handler para /pedido
+# Tornado Request Handler para /pedido (POST)
 class PedidoHandler(tornado.web.RequestHandler):
     def post(self):
         data = json.loads(self.request.body)
@@ -45,11 +45,20 @@ class PedidoHandler(tornado.web.RequestHandler):
             self.set_status(400)
             self.write({"error": "Solo se aceptan números"})
 
+# Tornado Request Handler para /pedidos (GET)
+class PedidosHandler(tornado.web.RequestHandler):
+    def get(self):
+        session = Session()
+        pedidos = session.query(Pedido).all()
+        session.close()
+        self.write({"pedidos": [{"id": pedido.id, "numero": pedido.numero} for pedido in pedidos]})
+
 # Crear aplicación Tornado y definir rutas
 def make_app():
     return tornado.web.Application([
         (r"/ping", PingHandler),
         (r"/pedido", PedidoHandler),
+        (r"/pedidos", PedidosHandler),
     ])
 
 # Ejecutar aplicación
