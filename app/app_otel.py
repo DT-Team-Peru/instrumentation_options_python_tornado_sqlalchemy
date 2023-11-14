@@ -9,42 +9,37 @@ from sqlalchemy.orm import sessionmaker
 #### OTEL Python ####
 
 # OpenTelemetry imports
-from opentelemetry import trace, metrics
+from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.metrics import MeterProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace.export import (
+    ConsoleSpanExporter,
+    BatchSpanProcessor,
+)
 from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.exporter.otlp.proto.http.metrics_exporter import OTLPMetricsExporter
-from opentelemetry.sdk.resources import Resource, SERVICE_NAME
 from opentelemetry.instrumentation.tornado import TornadoInstrumentor
 
-# Configuración del nombre del servicio para OTel
-resource = Resource.create({SERVICE_NAME: "python_pedidos"})
+# Nombre del servicio
+service_name = "python_pedidos"
+resource = Resource(attributes={"service.name": service_name})
 
-# Configuración de OpenTelemetry para Traces
+# Configuración de OpenTelemetry
 trace.set_tracer_provider(TracerProvider(resource=resource))
 tracer = trace.get_tracer(__name__)
 
-# Configuración del Exportador OTLP para Trazas
-otlp_span_exporter = OTLPSpanExporter(
-    endpoint=os.getenv("DT_URL"),
-    headers={"Authorization": f"Api-Token {os.getenv('DT_TOKEN')}"},
-    protocol="http/protobuf"
+# Exportador a la consola
+trace.get_tracer_provider().add_span_processor(
+    BatchSpanProcessor(ConsoleSpanExporter())
 )
-trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_span_exporter))
 
-# Configuración de OpenTelemetry para Metrics
-metrics.set_meter_provider(MeterProvider(resource=resource))
-meter = metrics.get_meter(__name__)
-
-# Configuración del Exportador OTLP para Métricas
-otlp_metrics_exporter = OTLPMetricsExporter(
-    endpoint=os.getenv("DT_URL"),
-    headers={"Authorization": f"Api-Token {os.getenv('DT_TOKEN')}"},
-    protocol="http/protobuf"
-)
-metrics.get_meter_provider().add_metric_reader(PeriodicExportingMetricReader(otlp_metrics_exporter))
+# Exportador a Dynatrace
+dt_url = os.getenv('DT_URL')
+dt_token = os.getenv('DT_TOKEN')
+if dt_url and dt_token:
+    otlp_exporter = OTLPSpanExporter(endpoint=dt_url, headers={"Authorization": f"Api-Token {dt_token}"})
+    trace.get_tracer_provider().add_span_processor(
+        BatchSpanProcessor(otlp_exporter)
+    )
 
 #### OTEL Python ####
 
