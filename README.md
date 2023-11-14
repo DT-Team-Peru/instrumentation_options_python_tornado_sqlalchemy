@@ -31,6 +31,14 @@ Instala las bibliotecas necesarias para Python utilizando pip. En la terminal, e
 
     pip install tornado sqlalchemy pymysql
 
+Instala las bibliotecas necesarias para Otel Python utilizando pip. En la terminal, ejecuta:
+
+    pip install opentelemetry-api
+    pip install opentelemetry-sdk
+    pip install opentelemetry-instrumentation
+    pip install opentelemetry-instrumentation-tornado
+    pip install opentelemetry-exporter-otlp
+
 ## Paso 3: Levantar el Contenedor Docker MySQL
 En la terminal, navega a la carpeta `/mysql` y ejecuta:
 
