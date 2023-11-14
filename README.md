@@ -31,7 +31,7 @@ Instala las bibliotecas necesarias para Python utilizando pip. En la terminal, e
 
     pip install tornado sqlalchemy pymysql
 
-Instala las bibliotecas necesarias para Otel Python utilizando pip. En la terminal, ejecuta:
+Instala las bibliotecas necesarias para **OTEL** Python utilizando pip. En la terminal, ejecuta:
 
     pip install opentelemetry-api
     pip install opentelemetry-sdk
@@ -39,7 +39,7 @@ Instala las bibliotecas necesarias para Otel Python utilizando pip. En la termin
     pip install opentelemetry-instrumentation-tornado
     pip install opentelemetry-exporter-otlp
 
-Instala las bibliotecas necesarias para autodynatrace Python utilizando pip. En la terminal, ejecuta:
+Instala las bibliotecas necesarias para **autodynatrace** Python utilizando pip. En la terminal, ejecuta:
 
     pip install autodynatrace
 
@@ -50,14 +50,9 @@ En la terminal, navega a la carpeta `/mysql` y ejecuta:
     docker ps -a
 
 Esto levantará el contenedor de MySQL según la configuración definida en `docker-compose.yaml`.
+Nota: Si el contenedor esta en vm usar la ip de la vm y si esta en el mismo host usar localhost y siempre usar con el puerto 3306 de la bd.
 
-## Paso 4: Obtener la IP del Contenedor Docker
-Para obtener la dirección IP del contenedor, utiliza:
-
-    docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysqldb
-Nota: Si el contenedor esta en vm usar la ip de la vm con el puerto 3306 de la bd.
-
-## Paso 5: Definición de Variables de Entorno
+## Paso 4: Definición de Variables de Entorno
 Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
 
 3.1.  **Abrir CMD en la Ruta Correcta:**
@@ -72,16 +67,17 @@ En la ventana de CMD, establece las variables de entorno utilizando el comando `
     set DBHOST=la_ip_de_tu_contenedor
     set DBPORT=3306
 
-Para la instrumentación OTEL api dynatrace se requiere tenat url y el token:
+Para la instrumentación **OTEL** api dynatrace se requiere tenat url y el token:
                 
     set DT_URL={url del tenant ej: https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces }
     set DT_TOKEN={token con los permisos: ingesting traces, logs, and metrics}
 
-Nota: Para mayor detalle pueden consultar [otlpexport](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#export-to-activegate) [authentication](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#authentication-export-to-activegate)
+Nota: Para mayor detalle pueden consultar [otlpexport](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#export-to-activegate)  [authentication](https://docs.dynatrace.com/docs/shortlink/otel-getstarted-otlpexport#authentication-export-to-activegate)
 
-Para la instrumentación autodynatrace se requiere las siguiente variable de entorno:
+Para la instrumentación **autodynatrace** se requiere las siguiente variable de entorno:
                 
     set AUTOWRAPT_BOOTSTRAP=autodynatrace
+
 NOTA: Para autodynatrace se requiere previamente tener instalado el oneagent
 
 3.3.  **Verificar Variables de Entorno:**
@@ -94,20 +90,20 @@ Deberías ver los valores que acabas de establecer.
 3.4.  **Mantener Abierta la Consola de Comandos:**
 Mantén abierta esta ventana de CMD para ejecutar tu aplicación Python. Si cierras esta ventana o abres una nueva, tendrás que volver a establecer las variables de entorno.
 
-## Paso 6: Ejecutar la Aplicación Python
+## Paso 5: Ejecutar la Aplicación Python
 Navega a la carpeta `/app` y ejecuta el script `app.py`:
 
     cd app
     python app.py
 
 ### Opciones de instrumentación para python con dynatrace
-instrumentación open telemetry con exporters a apis dynatrace
+instrumentación **OTEL** open telemetry con exporters a apis dynatrace
 
     python app_otel.py
 
-instrumentación open source con autodynatrace y one agent
+instrumentación open source con **autodynatrace** y one agent
 
-    python app_autodynatrace.py
+    python app.py
 
 instumentación dynatrace sdk
 
