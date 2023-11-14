@@ -76,6 +76,9 @@ Navega a la carpeta `/app` y ejecuta el script `app.py`:
 
     cd app
     python app.py
+    # python app_otel.py
+    # python app_autodynatrace.py
+    # python app_sdk.py
 
 ## Prueba
 ### GET a `/ping`
