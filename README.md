@@ -76,9 +76,9 @@ Navega a la carpeta `/app` y ejecuta el script `app.py`:
 
     cd app
     python app.py
-    # python app_otel.py
-    # python app_autodynatrace.py
-    # python app_sdk.py
+    # python app_otel.py # instrumentación open telemetry con exporters a apis dynatrace
+    # python app_autodynatrace.py # instrumentación open source con sdk dynatrace y one agent
+    # python app_sdk.py # instumentación dynatrace sdk
 
 ## Prueba
 ### GET a `/ping`
