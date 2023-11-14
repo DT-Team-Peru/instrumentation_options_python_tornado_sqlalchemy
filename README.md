@@ -33,15 +33,34 @@ Instala las bibliotecas necesarias para Python utilizando pip. En la terminal, e
 
 ## Paso 3: Definición de Variables de Entorno
 
-Define las variables de entorno necesarias en Windows:
+Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
 
-1.  Abre el Panel de Control.
-2.  Navega a Sistema y Seguridad > Sistema.
-3.  Haz clic en "Configuración avanzada del sistema".
-4.  En Propiedades del Sistema, selecciona "Variables de Entorno".
-5.  Agrega las siguientes variables:
-    -   `DBHOST`: La dirección IP del contenedor Docker de MySQL.
-    -   `DBPORT`: El puerto de acceso a MySQL (usualmente 3306).
+3.1.  **Abrir CMD en la Ruta Correcta:**
+    
+    -   Presiona `Win + R`, escribe `cmd` y presiona `Enter`.
+    -   Navega a la carpeta donde clonaste el repositorio utilizando el comando `cd`. Por ejemplo:
+                
+        `cd ruta\a\python_tornado_sqlalchemy` 
+        
+3.2.  **Establecer Variables de Entorno:**
+    
+    -   En la ventana de CMD, establece las variables de entorno utilizando el comando `set`. Por ejemplo:
+                
+        `set DBHOST=la_ip_de_tu_contenedor
+        set DBPORT=3306` 
+        
+    -   Reemplaza `la_ip_de_tu_contenedor` con la dirección IP real de tu contenedor Docker MySQL.
+3.3.  **Verificar Variables de Entorno:**
+    
+    -   Puedes verificar que las variables se hayan establecido correctamente con:
+                
+        `echo %DBHOST%
+        echo %DBPORT%` 
+        
+    -   Deberías ver los valores que acabas de establecer.
+3.4.  **Mantener Abierta la Consola de Comandos:**
+    
+    -   Mantén abierta esta ventana de CMD para ejecutar tu aplicación Python. Si cierras esta ventana o abres una nueva, tendrás que volver a establecer las variables de entorno.
 
 ## Paso 4: Levantar el Contenedor Docker MySQL
 
