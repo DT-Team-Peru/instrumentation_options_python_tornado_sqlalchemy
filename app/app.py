@@ -40,7 +40,7 @@ class PedidoHandler(tornado.web.RequestHandler):
             session.add(nuevo_pedido)
             session.commit()
             session.close()
-            self.write({"message": "Número añadido correctamente"})
+            self.write({"message": "registro agregado"})
         except ValueError:
             self.set_status(400)
             self.write({"error": "Solo se aceptan números"})
