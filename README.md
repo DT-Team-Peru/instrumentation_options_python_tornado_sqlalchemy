@@ -43,6 +43,10 @@ Instala las bibliotecas necesarias para **autodynatrace** Python utilizando pip.
 
     pip install autodynatrace
 
+Instala las bibliotecas necesarias para **One agent SDK** Python utilizando pip. En la terminal, ejecuta:
+
+    pip install oneagent-sdk
+
 ## Paso 3: Levantar el Contenedor Docker MySQL
 En la terminal, navega a la carpeta `/mysql` y ejecuta:
 
@@ -55,13 +59,13 @@ Nota: Si el contenedor esta en vm usar la ip de la vm y si esta en el mismo host
 ## Paso 4: Definición de Variables de Entorno
 Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
 
-3.1.  **Abrir CMD en la Ruta Correcta:**
+4.1.  **Abrir CMD en la Ruta Correcta:**
 Presiona `Win + R`, escribe `cmd` y presiona `Enter`.
 Navega a la carpeta donde clonaste el repositorio utilizando el comando `cd`. Por ejemplo:
 
     cd ruta\a\python_tornado_sqlalchemy
         
-3.2.  **Establecer Variables de Entorno:**
+4.2.  **Establecer Variables de Entorno:**
 En la ventana de CMD, establece las variables de entorno utilizando el comando `set`. Por ejemplo:
                 
     set DBHOST=la_ip_de_tu_contenedor
@@ -80,14 +84,16 @@ Para la instrumentación **autodynatrace** se requiere las siguiente variable de
 
 NOTA: Para autodynatrace se requiere previamente tener instalado el oneagent
 
-3.3.  **Verificar Variables de Entorno:**
+Para la instrumentación **One agent SDK** no se requieren variables de entorno:
+
+4.3.  **Verificar Variables de Entorno:**
 Puedes verificar que las variables se hayan establecido correctamente con:
                 
     echo %DBHOST%
     echo %DBPORT%
         
 Deberías ver los valores que acabas de establecer.
-3.4.  **Mantener Abierta la Consola de Comandos:**
+4.4.  **Mantener Abierta la Consola de Comandos:**
 Mantén abierta esta ventana de CMD para ejecutar tu aplicación Python. Si cierras esta ventana o abres una nueva, tendrás que volver a establecer las variables de entorno.
 
 ## Paso 5: Ejecutar la Aplicación Python
