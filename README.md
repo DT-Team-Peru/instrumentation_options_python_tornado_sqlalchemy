@@ -77,5 +77,8 @@ Navega a la carpeta `/app` y ejecuta el script `app.py`:
     cd app
     python app.py
 
+## Prueba
+
+
 ## Conclusión
 Al seguir estos pasos, tendrás tu aplicación Python con Tornado corriendo y conectándose a una base de datos MySQL en un contenedor Docker en Windows.
