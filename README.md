@@ -22,16 +22,12 @@ Asegúrate de tener instalado lo siguiente en tu entorno Windows:
 
 Clona el repositorio desde GitHub para obtener el código de la aplicación y la configuración de Docker. Abre una terminal y ejecuta:
 
-bashCopy code
-
 `git clone https://github.com/Edunzz/python_tornado_sqlalchemy.git
 cd python_tornado_sqlalchemy` 
 
 ## Paso 2: Instalación de Bibliotecas Python
 
 Instala las bibliotecas necesarias para Python utilizando pip. En la terminal, ejecuta:
-
-bashCopy code
 
 `pip install tornado sqlalchemy pymysql` 
 
@@ -51,8 +47,6 @@ Define las variables de entorno necesarias en Windows:
 
 En la terminal, navega a la carpeta `/mysql` y ejecuta:
 
-bashCopy code
-
 `docker-compose up -d` 
 
 Esto levantará el contenedor de MySQL según la configuración definida en `docker-compose.yaml`.
@@ -61,8 +55,6 @@ Esto levantará el contenedor de MySQL según la configuración definida en `doc
 
 Para obtener la dirección IP del contenedor, utiliza:
 
-bashCopy code
-
 `docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nombre_contenedor` 
 
 Reemplaza `nombre_contenedor` con el nombre real de tu contenedor MySQL.
@@ -70,8 +62,6 @@ Reemplaza `nombre_contenedor` con el nombre real de tu contenedor MySQL.
 ## Paso 6: Ejecutar la Aplicación Python
 
 Navega a la carpeta `/app` y ejecuta el script `app.py`:
-
-bashCopy code
 
 `python app.py` 
 
