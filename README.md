@@ -31,13 +31,20 @@ Instala las bibliotecas necesarias para Python utilizando pip. En la terminal, e
 
         pip install tornado sqlalchemy pymysql
 
-## Paso 3: Definición de Variables de Entorno
+## Paso 3: Levantar el Contenedor Docker MySQL
+En la terminal, navega a la carpeta `/mysql` y ejecuta:
+
+        docker-compose up -d
+
+Esto levantará el contenedor de MySQL según la configuración definida en `docker-compose.yaml`.
+
+## Paso 4: Definición de Variables de Entorno
 Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
 
 3.1.  **Abrir CMD en la Ruta Correcta:**
 Presiona `Win + R`, escribe `cmd` y presiona `Enter`.
 Navega a la carpeta donde clonaste el repositorio utilizando el comando `cd`. Por ejemplo:
-                
+
         cd ruta\a\python_tornado_sqlalchemy
         
 3.2.  **Establecer Variables de Entorno:**
@@ -56,13 +63,6 @@ Puedes verificar que las variables se hayan establecido correctamente con:
 Deberías ver los valores que acabas de establecer.
 3.4.  **Mantener Abierta la Consola de Comandos:**
 Mantén abierta esta ventana de CMD para ejecutar tu aplicación Python. Si cierras esta ventana o abres una nueva, tendrás que volver a establecer las variables de entorno.
-
-## Paso 4: Levantar el Contenedor Docker MySQL
-En la terminal, navega a la carpeta `/mysql` y ejecuta:
-
-        docker-compose up -d
-
-Esto levantará el contenedor de MySQL según la configuración definida en `docker-compose.yaml`.
 
 ## Paso 5: Obtener la IP del Contenedor Docker
 Para obtener la dirección IP del contenedor, utiliza:
