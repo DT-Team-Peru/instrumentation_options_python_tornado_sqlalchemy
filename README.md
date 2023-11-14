@@ -43,6 +43,7 @@ Esto levantará el contenedor de MySQL según la configuración definida en `doc
 Para obtener la dirección IP del contenedor, utiliza:
 
     docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysqldb
+Nota: Si el contenedor esta en vm usar la ip de la vm con el puerto 3306 de la bd.
 
 ## Paso 5: Definición de Variables de Entorno
 Para configurar las variables de entorno necesarias para la aplicación, puedes utilizar la consola de comandos (CMD) en Windows. Es importante que uses la misma instancia de CMD para configurar las variables y para ejecutar tu aplicación, ya que las variables de entorno establecidas en CMD son específicas de esa sesión.
