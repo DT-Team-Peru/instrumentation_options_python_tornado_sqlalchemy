@@ -35,11 +35,9 @@ Instala las bibliotecas necesarias para Otel Python utilizando pip. En la termin
 
     pip install opentelemetry-api
     pip install opentelemetry-sdk
-    pip install opentelemetry-exporter-otlp-proto-http
     pip install opentelemetry-instrumentation
     pip install opentelemetry-instrumentation-tornado
-    pip install opentelemetry-sdk-metrics
-    pip install opentelemetry-sdk-logs
+    pip install opentelemetry-exporter-otlp
 
 ## Paso 3: Levantar el Contenedor Docker MySQL
 En la terminal, navega a la carpeta `/mysql` y ejecuta:
